@@ -22,17 +22,75 @@ namespace CrmAzure
                 //    .ThenInclude(o => o.Products)
                 //    .SingleOrDefault();
 
-                //var customer = new Customer()
+                // --------Added 30 customers ---------------
+                
+                //for (int i = 0; i < 30 ; i++)
                 //{
-                //    FirstName = "John",
-                //    LastName = "Taramas",
+                //    var customer = new Customer()
+                //    {
+                //    FirstName = $"Firstname {i} ",
+                //    LastName = $"Lastname {i} ",
                 //    IsActive = true,
                 //    Gross = 0
 
-                //};
+                //    };
+
+                //    db.Add(customer);
+                //---------------------------------------------
+             
+
+                //--------Added 30 orders to random Customers-----------------------
+
+                //for (int i = 0; i < 30; i++)
+                //{
+                //    var randomCustomer = db.Customer
+                //    .OrderBy(r => Guid.NewGuid())
+                //    .Skip(0)
+                //    .Take(1)
+                //    .Include(c => c.Orders)
+                //    .ThenInclude(o => o.Products)
+                //    .SingleOrDefault();
 
 
+                //    var order = new Order()
+                //    {
+                //        Description = $"This is Description number {i}",
+                //        Created = DateTimeOffset.UtcNow,
+                //        Address = $"Address number {i} ",
+                //        Customer = randomCustomer,
+                //        CustomerId = randomCustomer.Id
+                //    };
+
+                //    randomCustomer.Orders.Add(order);
+                //}
+                //-----------------------------------------------
+
+
+                var c = db.Customer
+                    .Where(c=>c.Id == 2)                   
+                    .Include(c => c.Orders)
+                    .ThenInclude(o =>o.Products)
+                    .SingleOrDefault();
+
+
+                var firstCustomerOrder = c
+                    .Orders
+                    .First();
+                firstCustomerOrder.Products.Add(new OrderProduct()
+                {
+                    Product = new Product
+                    {
+                        Name = "Xiaomi",
+                        Price = 300
+                    }                    
+                });
+                           
+                db.SaveChanges();
+                
+            };
                 //db.Customer.Add(customer);
+                //Console.WriteLine($"{customer.FirstName} {customer.LastName}");
+
 
 
                 //Customer customer = db.Customer.First();
@@ -41,8 +99,11 @@ namespace CrmAzure
                 //var firstCustomerOrder = c.Orders.First();
 
                 // save changes
-                db.SaveChanges();
+
+
+                //var c = db.Customer.Where(c => c.Id == 5).First();
+                //Console.WriteLine(c.FirstName);
+
             }
         }
-    }
 }
