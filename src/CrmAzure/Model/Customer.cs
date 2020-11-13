@@ -12,7 +12,7 @@ namespace CrmAzure.Model
 
         public bool IsActive { get; set; }
 
-        public int Gross { get; set; }
+        public decimal Gross { get; set; }
 
        
         // this is a navigation property
